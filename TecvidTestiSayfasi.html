@@ -450,31 +450,31 @@
         <div class="SoruKonteynerAlani FadeInAnimasyon">
             <div class="SoruBasligiAlani">📝 Soru 2</div>
             <div class="SoruMetniAlani">
-                Aşağıdaki duraklardan hangilerinin anlamları doğrudur?
+                Aşağıdaki duraklardan hangilerinin anlamları doğrudur? (Birden fazla seçenek işaretleyebilirsiniz)
             </div>
             <div class="SeceneklerAlani">
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
-                    <input type="radio" name="soru2" value="a">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 2, 'a')">
+                    <input type="checkbox" name="soru2" value="a">
                     <span class="SecenekIsaretiAlani"></span>
                     a) "م" durmak gerekir. Durulmadığında mana bozulur.
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
-                    <input type="radio" name="soru2" value="b">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 2, 'b')">
+                    <input type="checkbox" name="soru2" value="b">
                     <span class="SecenekIsaretiAlani"></span>
                     b) "ج" durmakta geçmekte câizdir. Durmak daha iyidir.
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
-                    <input type="radio" name="soru2" value="c">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 2, 'c')">
+                    <input type="checkbox" name="soru2" value="c">
                     <span class="SecenekIsaretiAlani"></span>
                     c) "ز" geçmek daha iyidir, aynı zamanda durulabilir.
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
-                    <input type="radio" name="soru2" value="d">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 2, 'd')">
+                    <input type="checkbox" name="soru2" value="d">
                     <span class="SecenekIsaretiAlani"></span>
                     d) "ص" okuyanın nefesi yetmediğinde zaruretten dolayı durmaya müsaade edilen duraktır.
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
-                    <input type="radio" name="soru2" value="e">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 2, 'e')">
+                    <input type="checkbox" name="soru2" value="e">
                     <span class="SecenekIsaretiAlani"></span>
                     e) "ﻻ" durulur da, geçilir de. Çoğu alime göre durmamak lazımdır.
                 </label>
@@ -736,7 +736,7 @@
         let BaslangicZamani = new Date().getTime();
         let TestSonuclari = {
             soru1: { alt1: null, alt2: null, alt3: null, alt4: null, alt5: null },
-            soru2: null,
+            soru2: [],
             soru3: null,
             soru4: null,
             soru5: null,
@@ -749,7 +749,7 @@
 
         let DogruCevaplar = {
             soru1: { alt1: 'dogru', alt2: 'dogru', alt3: 'yanlis', alt4: 'yanlis', alt5: 'dogru' },
-            soru2: 'e',
+            soru2: ['a', 'b', 'c', 'd'],
             soru3: 'a',
             soru4: 'c',
             soru5: 'd',
@@ -830,7 +830,7 @@
                         }
                     }
                     if (soru1Dogru === 5) dogruSayisi++;
-                } else if (i === 7 || i === 10) {
+                } else if (i === 2 || i === 7 || i === 10) {
                     const kullaniciCevap = TestSonuclari['soru' + i];
                     const dogruCevap = DogruCevaplar['soru' + i];
                     
@@ -864,9 +864,9 @@
 
         function CevaplariGoster() {
             let cevapMetni = "🔍 DOĞRU CEVAPLAR:\n\n";
-            cevapMetni += "Soru 1: D-Y-Y-Y-D\n";
-            cevapMetni += "Soru 2: a) م durmak gerekir\n";
-            cevapMetni += "Soru 3: d) Meddi Muttasıl, meddi tabiî, idğam-ı şemsiyye...\n";
+            cevapMetni += "Soru 1: D-D-Y-Y-D\n";
+            cevapMetni += "Soru 2: a) م durmak gerekir, b) ج durmakta geçmekte câizdir, c) ز geçmek daha iyidir, d) ص okuyanın nefesi yetmediğinde zaruretten dolayı durmaya müsaade edilen duraktır\n";
+            cevapMetni += "Soru 3: a) İdğam-ı Misleteyn Bila ğunne, Meddi Munfasıl, Meddi tabii, Meddi tabii, İdğam-ı Şemsiyye, الدنيا kelimesi izhar ile okunur, Meddi tabii,İdğam-ı meal ğunne, İzhar-ı Kameriyye, Meddi tabii, Ra'nın hükmü kalın okunur\n";
             cevapMetni += "Soru 4: c) يَنْصُرْكُمْ\n";
             cevapMetni += "Soru 5: a) مُؤْصَدَةٌ\n";
             cevapMetni += "Soru 6: c) İdğam-ı Şemsiyye\n";
