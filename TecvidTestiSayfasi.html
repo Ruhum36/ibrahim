@@ -108,6 +108,8 @@
             font-size: 1rem;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
         }
         
         .SecenekButonAlani:hover {
@@ -130,6 +132,13 @@
             height: 0;
         }
         
+        .SecenekButonAlani input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
         .SecenekButonAlani .SecenekIsaretiAlani {
             width: 20px;
             height: 20px;
@@ -139,6 +148,10 @@
             margin-right: 15px;
             position: relative;
             transition: all 0.3s ease;
+        }
+        
+        .SecenekButonAlani input[type="checkbox"] + .SecenekIsaretiAlani {
+            border-radius: 4px;
         }
         
         .SecenekButonAlani.SeciliSecenek .SecenekIsaretiAlani {
@@ -156,6 +169,17 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+        
+        .SecenekButonAlani.SeciliSecenek input[type="checkbox"] + .SecenekIsaretiAlani::after {
+            content: '✓';
+            width: auto;
+            height: auto;
+            background: none;
+            border-radius: 0;
+            color: #667eea;
+            font-size: 14px;
+            font-weight: bold;
         }
         
         .DogruYanlisAlani {
@@ -353,6 +377,19 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        .ArapMetinSecenek {
+            direction: ltr;
+            text-align: left;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .ArapMetinSecenek .ArapKisim {
+            direction: rtl;
+            display: inline;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -485,22 +522,22 @@
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
                     <input type="radio" name="soru4" value="a">
                     <span class="SecenekIsaretiAlani"></span>
-                    a) عَنْ نَفْسٍ
+                    <span class="ArapMetinSecenek">a) <span class="ArapKisim">عَنْ نَفْسٍ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
                     <input type="radio" name="soru4" value="b">
                     <span class="SecenekIsaretiAlani"></span>
-                    b) لَئِنْ بَسَطْتَ
+                    <span class="ArapMetinSecenek">b) <span class="ArapKisim">لَئِنْ بَسَطْتَ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
                     <input type="radio" name="soru4" value="c">
                     <span class="SecenekIsaretiAlani"></span>
-                    c) يَنْصُرْكُمْ
+                    <span class="ArapMetinSecenek">c) <span class="ArapKisim">يَنْصُرْكُمْ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
                     <input type="radio" name="soru4" value="d">
                     <span class="SecenekIsaretiAlani"></span>
-                    d) مِنْ رِزْقٍ
+                    <span class="ArapMetinSecenek">d) <span class="ArapKisim">مِنْ رِزْقٍ</span></span>
                 </label>
             </div>
         </div>
@@ -514,17 +551,17 @@
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
                     <input type="radio" name="soru5" value="a">
                     <span class="SecenekIsaretiAlani"></span>
-                    a) مُؤْصَدَةٌ
+                    <span class="ArapMetinSecenek">a) <span class="ArapKisim">عَلَيْهِمْ مُؤْصَدَةٌ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
                     <input type="radio" name="soru5" value="b">
                     <span class="SecenekIsaretiAlani"></span>
-                    b) مِنْهُمْ
+                    <span class="ArapMetinSecenek">b) <span class="ArapKisim">مَا لَكُمْ مِنَ اللهِ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
                     <input type="radio" name="soru5" value="c">
                     <span class="SecenekIsaretiAlani"></span>
-                    c) مَا لَكُمْ مِنْ اللَّهِ
+                    <span class="ArapMetinSecenek">c) <span class="ArapKisim">صُمٌّ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
                     <input type="radio" name="soru5" value="d">
@@ -537,7 +574,7 @@
         <div class="SoruKonteynerAlani FadeInAnimasyon">
             <div class="SoruBasligiAlani">📝 Soru 6</div>
             <div class="SoruMetniAlani">
-                اَلرَّحْمٰنِ kelimesinde hangi tecvid kuralı vardır?
+                <span class="ArapMetinSecenek"><span class="ArapKisim">اَلرَّحْمٰنِ</span></span> kelimesinde hangi tecvid kuralı vardır?
             </div>
             <div class="SeceneklerAlani">
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 6)">
@@ -566,28 +603,28 @@
         <div class="SoruKonteynerAlani FadeInAnimasyon">
             <div class="SoruBasligiAlani">📝 Soru 7</div>
             <div class="SoruMetniAlani">
-                Aşağıdaki kelimelerden hangilerinde İzhar-ı Kameriyye uygulanmıştır?
+                Aşağıdaki kelimelerden hangilerinde İzhar-ı Kameriyye uygulanmıştır? (Birden fazla seçenek işaretleyebilirsiniz)
             </div>
             <div class="SeceneklerAlani">
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
-                    <input type="radio" name="soru7" value="a">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 7, 'a')">
+                    <input type="checkbox" name="soru7" value="a">
                     <span class="SecenekIsaretiAlani"></span>
-                    a) الْقَمَرُ
+                    <span class="ArapMetinSecenek">a) <span class="ArapKisim">الْقَمَرُ</span></span>
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
-                    <input type="radio" name="soru7" value="b">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 7, 'b')">
+                    <input type="checkbox" name="soru7" value="b">
                     <span class="SecenekIsaretiAlani"></span>
-                    b) الْعَيْنُ
+                    <span class="ArapMetinSecenek">b) <span class="ArapKisim">الْعَيْنُ</span></span>
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
-                    <input type="radio" name="soru7" value="c">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 7, 'c')">
+                    <input type="checkbox" name="soru7" value="c">
                     <span class="SecenekIsaretiAlani"></span>
-                    c) التَّوْبَةُ
+                    <span class="ArapMetinSecenek">c) <span class="ArapKisim">التَّوْبَةُ</span></span>
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
-                    <input type="radio" name="soru7" value="d">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 7, 'd')">
+                    <input type="checkbox" name="soru7" value="d">
                     <span class="SecenekIsaretiAlani"></span>
-                    d) الْجُمُعَةُ
+                    <span class="ArapMetinSecenek">d) <span class="ArapKisim">الْجُمُعَةُ</span></span>
                 </label>
             </div>
         </div>
@@ -601,22 +638,22 @@
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
                     <input type="radio" name="soru8" value="a">
                     <span class="SecenekIsaretiAlani"></span>
-                    a) ت، د، ط
+                    <span class="ArapMetinSecenek">a) <span class="ArapKisim">ت، د، ط</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
                     <input type="radio" name="soru8" value="b">
                     <span class="SecenekIsaretiAlani"></span>
-                    b) ث، ذ، ظ
+                    <span class="ArapMetinSecenek">b) <span class="ArapKisim">ث، ذ، ظ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
                     <input type="radio" name="soru8" value="c">
                     <span class="SecenekIsaretiAlani"></span>
-                    c) م، ب
+                    <span class="ArapMetinSecenek">c) <span class="ArapKisim">م، ب</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
                     <input type="radio" name="soru8" value="d">
                     <span class="SecenekIsaretiAlani"></span>
-                    d) ق، ك
+                    <span class="ArapMetinSecenek">d) <span class="ArapKisim">ق، ك</span></span>
                 </label>
             </div>
         </div>
@@ -630,22 +667,22 @@
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
                     <input type="radio" name="soru9" value="a">
                     <span class="SecenekIsaretiAlani"></span>
-                    a) آمَنَ
+                    <span class="ArapMetinSecenek">a) <span class="ArapKisim">اَمْ مَنْ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
                     <input type="radio" name="soru9" value="b">
                     <span class="SecenekIsaretiAlani"></span>
-                    b) رَبُّهُمْ بِهِمْ
+                    <span class="ArapMetinSecenek">b) <span class="ArapKisim">رَبُّهُمْ بِهِمْ</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
                     <input type="radio" name="soru9" value="c">
                     <span class="SecenekIsaretiAlani"></span>
-                    c) خَلَقْنَا
+                    <span class="ArapMetinSecenek">c) <span class="ArapKisim">خَلَقْنَا</span></span>
                 </label>
                 <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
                     <input type="radio" name="soru9" value="d">
                     <span class="SecenekIsaretiAlani"></span>
-                    d) وَلَكُمْ فِيهَا مَا
+                    <span class="ArapMetinSecenek">d) <span class="ArapKisim">وَلَكُمْ فِيهَا مَا</span></span>
                 </label>
             </div>
         </div>
@@ -653,28 +690,28 @@
         <div class="SoruKonteynerAlani FadeInAnimasyon">
             <div class="SoruBasligiAlani">📝 Soru 10</div>
             <div class="SoruMetniAlani">
-                Hangi harf grubunda İdğam-ı Mütekaribeyn oluşur?
+                Hangi harf grubunda İdğam-ı Mütekaribeyn oluşur? (Birden fazla seçenek işaretleyebilirsiniz)
             </div>
             <div class="SeceneklerAlani">
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
-                    <input type="radio" name="soru10" value="a">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 10, 'a')">
+                    <input type="checkbox" name="soru10" value="a">
                     <span class="SecenekIsaretiAlani"></span>
-                    a) ق، ك
+                    <span class="ArapMetinSecenek">a) <span class="ArapKisim">ق، ك</span></span>
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
-                    <input type="radio" name="soru10" value="b">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 10, 'b')">
+                    <input type="checkbox" name="soru10" value="b">
                     <span class="SecenekIsaretiAlani"></span>
-                    b) ل، ر
+                    <span class="ArapMetinSecenek">b) <span class="ArapKisim">ل، ر</span></span>
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
-                    <input type="radio" name="soru10" value="c">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 10, 'c')">
+                    <input type="checkbox" name="soru10" value="c">
                     <span class="SecenekIsaretiAlani"></span>
-                    c) ث، ذ، ظ
+                    <span class="ArapMetinSecenek">c) <span class="ArapKisim">ث، ذ، ظ</span></span>
                 </label>
-                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
-                    <input type="radio" name="soru10" value="d">
+                <label class="SecenekButonAlani" onclick="CokluSecenekSecimi(this, 10, 'd')">
+                    <input type="checkbox" name="soru10" value="d">
                     <span class="SecenekIsaretiAlani"></span>
-                    d) ي، م، ن، و
+                    <span class="ArapMetinSecenek">d) <span class="ArapKisim">ي، م، ن، و</span></span>
                 </label>
             </div>
         </div>
@@ -703,23 +740,23 @@
             soru4: null,
             soru5: null,
             soru6: null,
-            soru7: null,
+            soru7: [],
             soru8: null,
             soru9: null,
-            soru10: null
+            soru10: []
         };
 
         let DogruCevaplar = {
-            soru1: { alt1: 'dogru', alt2: 'yanlis', alt3: 'yanlis', alt4: 'yanlis', alt5: 'dogru' },
-            soru2: 'a',
-            soru3: 'd',
+            soru1: { alt1: 'dogru', alt2: 'dogru', alt3: 'yanlis', alt4: 'yanlis', alt5: 'dogru' },
+            soru2: 'e',
+            soru3: 'a',
             soru4: 'c',
-            soru5: 'a',
+            soru5: 'd',
             soru6: 'c',
-            soru7: 'a',
-            soru8: 'c',
-            soru9: 'a',
-            soru10: 'a'
+            soru7: ['a', 'b', 'd'],
+            soru8: 'd',
+            soru9: 'c',
+            soru10: ['a', 'b']
         };
 
         function ZamaniGuncelle() {
@@ -762,6 +799,23 @@
             TestSonuclari['soru' + soruNo]['alt' + altSoruNo] = secim;
         }
 
+        function CokluSecenekSecimi(element, soruNo, secim) {
+            const checkboxInput = element.querySelector('input[type="checkbox"]');
+            
+            if (checkboxInput.checked) {
+                element.classList.add('SeciliSecenek');
+                if (!TestSonuclari['soru' + soruNo].includes(secim)) {
+                    TestSonuclari['soru' + soruNo].push(secim);
+                }
+            } else {
+                element.classList.remove('SeciliSecenek');
+                const index = TestSonuclari['soru' + soruNo].indexOf(secim);
+                if (index > -1) {
+                    TestSonuclari['soru' + soruNo].splice(index, 1);
+                }
+            }
+        }
+
         function TestiDegerlendir() {
             let dogruSayisi = 0;
             let toplamSoru = 10;
@@ -775,6 +829,14 @@
                         }
                     }
                     if (soru1Dogru === 5) dogruSayisi++;
+                } else if (i === 7 || i === 10) {
+                    const kullaniciCevap = TestSonuclari['soru' + i];
+                    const dogruCevap = DogruCevaplar['soru' + i];
+                    
+                    if (kullaniciCevap.length === dogruCevap.length && 
+                        kullaniciCevap.every(secim => dogruCevap.includes(secim))) {
+                        dogruSayisi++;
+                    }
                 } else {
                     if (TestSonuclari['soru' + i] === DogruCevaplar['soru' + i]) {
                         dogruSayisi++;
@@ -807,10 +869,10 @@
             cevapMetni += "Soru 4: c) يَنْصُرْكُمْ\n";
             cevapMetni += "Soru 5: a) مُؤْصَدَةٌ\n";
             cevapMetni += "Soru 6: c) İdğam-ı Şemsiyye\n";
-            cevapMetni += "Soru 7: a) الْقَمَرُ\n";
+            cevapMetni += "Soru 7: a) الْقَمَرُ, b) الْعَيْنُ, d) الْجُمُعَةُ\n";
             cevapMetni += "Soru 8: c) م، ب\n";
-            cevapMetni += "Soru 9: a) آمَنَ\n";
-            cevapMetni += "Soru 10: a) ق، ك\n";
+            cevapMetni += "Soru 9: a) اَمْ مَنْ\n";
+            cevapMetni += "Soru 10: a) ق، ك, b) ل، ر\n";
             
             alert(cevapMetni);
         }
