@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECVİT TESTİ - Yaprak Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 1.5cm;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #000;
+            background: white;
+        }
+
+        .sayfa {
+            page-break-after: always;
+            padding: 0.5cm;
+        }
+
+        .sayfa:last-child {
+            page-break-after: avoid;
+        }
+
+        .baslik {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .baslik h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .ogrenci-bilgi {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .bilgi-kutucuk {
+            flex: 1;
+            margin-right: 20px;
+            border-bottom: 1px solid #000;
+            height: 20px;
+        }
+
+        .bilgi-kutucuk:last-child {
+            margin-right: 0;
+        }
+
+        .soru {
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .soru-no {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .soru-metin {
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .arap-metin {
+            font-size: 16px;
+            text-align: right;
+            direction: rtl;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 8px 0;
+            font-weight: bold;
+        }
+
+        .secenekler {
+            list-style: none;
+            padding: 0;
+        }
+
+        .secenek {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .checkbox {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #000;
+            margin-right: 10px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .secenek-metin {
+            flex: 1;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .dogru-yanlis-tablo {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .dogru-yanlis-tablo td {
+            border: 1px solid #000;
+            padding: 6px;
+            vertical-align: top;
+        }
+
+        .cumle-hucre {
+            width: 75%;
+        }
+
+        .secim-hucre {
+            width: 12.5%;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .kucuk-checkbox {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #000;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .sayfa-no {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 11px;
+        }
+
+        @media print {
+            body {
+                background: white !important;
+            }
+            
+            .sayfa {
+                page-break-after: always;
+                margin: 0;
+                padding: 0.3cm;
+            }
+            
+            .sayfa:last-child {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SAYFA 1 -->
+    <div class="sayfa">
+        <div class="baslik">
+            <h1>TECVİT TESTİ</h1>
+            <div style="font-size: 14px;">İslami İlimler</div>
+        </div>
+
+        <div class="ogrenci-bilgi">
+            <div>
+                <strong>Adı Soyadı:</strong>
+                <div class="bilgi-kutucuk"></div>
+            </div>
+            <div>
+                <strong>Tarih:</strong>
+                <div class="bilgi-kutucuk"></div>
+            </div>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">1. Aşağıdaki cümlelerden doğru olanı D, yanlışı olanı Y ile işaretleyiniz.</div>
+            <table class="dogru-yanlis-tablo">
+                <tr>
+                    <td class="cumle-hucre">İdğam-ı Misleyn, aynı olan iki harften birincisi sakin, ikincisi harekeli olarak art arda gelmesiyle olur.</td>
+                    <td class="secim-hucre">D <span class="kucuk-checkbox"></span></td>
+                    <td class="secim-hucre">Y <span class="kucuk-checkbox"></span></td>
+                </tr>
+                <tr>
+                    <td class="cumle-hucre">İdğam-ı Mütecaniseyn mahreçleri aynı sıfatları farklı olan 3 harf grubunda meydana gelir.</td>
+                    <td class="secim-hucre">D <span class="kucuk-checkbox"></span></td>
+                    <td class="secim-hucre">Y <span class="kucuk-checkbox"></span></td>
+                </tr>
+                <tr>
+                    <td class="cumle-hucre">İdğam-ı Mütekaribeyn, aynı mahreçten gelen aynı iki harf arasında olur.</td>
+                    <td class="secim-hucre">D <span class="kucuk-checkbox"></span></td>
+                    <td class="secim-hucre">Y <span class="kucuk-checkbox"></span></td>
+                </tr>
+                <tr>
+                    <td class="cumle-hucre">İzhâr-ı Kameriyye'de elif lam (ال) okunmaz, gizlenir.</td>
+                    <td class="secim-hucre">D <span class="kucuk-checkbox"></span></td>
+                    <td class="secim-hucre">Y <span class="kucuk-checkbox"></span></td>
+                </tr>
+                <tr>
+                    <td class="cumle-hucre">"ل" durağında durmak gerekir. Çünkü bundan sonra gelecek kısmın önceki kısım ile alakası yoktur.</td>
+                    <td class="secim-hucre">D <span class="kucuk-checkbox"></span></td>
+                    <td class="secim-hucre">Y <span class="kucuk-checkbox"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">2. Aşağıdaki duraklardan hangilerinin anlamları doğrudur?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) "م" durmak gerekir. Durulmadığında mana bozulur.</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) "ق" durmakta maslahat vardır. Durmak daha iyidir.</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) "ج" geçmek daha iyidir, aynı zamanda durulabilir.</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) "ص" okuyanın nefesi yetmediğinde zaruretten dolayı durmaya müsaade edilen duraktır.</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">e) "ﻻ" durulur da, geçilir de. Çoğu alime göre durmamak lazımdır.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">3. Aşağıdaki ayette geçen tecvid kuralları hangi seçenekte doğru verilmiştir?</div>
+            <div class="arap-metin">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) İdğam-ı Misleyn Bila Gunne, Meddi Munfasıl, Meddi Tabiî</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) İklab, Meddi Muttasıl, Meddi Tabiî, İzhar-ı Kameriyye</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) Meddi Munfasıl, meddi tabiî, ihfa, idğam-ı bila gunne</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) Meddi Muttasıl, meddi tabiî, idğam-ı şemsiyye, izhar</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">4. Aşağıdaki kelimelerin hangisinde ihfa vardır?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) عَنْ نَفْسٍ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) لَئِنْ بَسَطْتَ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) يَنْصُرْكُمْ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) مِنْ رِزْقٍ</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">5. Aşağıdaki kelimelerin hangisi İdğam-ı Misleyn Meal Gunne'dir?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) مُؤْصَدَةٌ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) مِنْهُمْ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) مَا لَكُمْ مِنْ اللَّهِ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) hepsi</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sayfa-no">1/2</div>
+    </div>
+
+    <!-- SAYFA 2 -->
+    <div class="sayfa">
+        <div class="baslik">
+            <h1>TECVİT TESTİ (Devam)</h1>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">6. اَلرَّحْمٰنِ kelimesinde hangi tecvid kuralı vardır?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) İzhar</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) İdğam-ı Mütecaniseyn</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) İdğam-ı Şemsiyye</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) İklab</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">7. Aşağıdaki kelimelerden hangilerinde İzhar-ı Kameriyye uygulanmıştır?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) الْقَمَرُ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) الْعَيْنُ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) التَّوْبَةُ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) الْجُمُعَةُ</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">8. Aşağıdaki harf grubundan hangisi İdğam-ı Mütecaniseyn oluşturmaz?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) ت، د، ط</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) ث، ذ، ظ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) م، ب</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) ق، ك</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">9. Aşağıdaki hangi kelimede sakin mim (مْ) halleri yoktur?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) آمَنَ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) رَبُّهُمْ بِهِمْ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) خَلَقْنَا</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) وَلَكُمْ فِيهَا مَا</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="soru">
+            <div class="soru-no">10. Hangi harf grubunda İdğam-ı Mütekaribeyn oluşur?</div>
+            <ul class="secenekler">
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">a) ق، ك</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">b) ل، ر</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">c) ث، ذ، ظ</span>
+                </li>
+                <li class="secenek">
+                    <span class="checkbox"></span>
+                    <span class="secenek-metin">d) ي، م، ن، و</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sayfa-no">2/2</div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+</body>
+</html> 
