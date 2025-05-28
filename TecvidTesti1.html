@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecvid Testi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid #f39c12;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .questions-container {
+            padding: 25px;
+        }
+        
+        .question {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .question:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .question-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            background: #f1f9ff;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .options {
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            background: #e9f7fe;
+            border-color: #3498db;
+        }
+        
+        .option.selected {
+            background: #d1ecff;
+            border-color: #3498db;
+            font-weight: bold;
+        }
+        
+        .option input {
+            margin-right: 12px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-option input {
+            margin-right: 10px;
+        }
+        
+        .true-false-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .true-false-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .true-false-btn.true {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        
+        .true-false-btn.true.selected {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .true-false-btn.false {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        
+        .true-false-btn.false.selected {
+            background: #f44336;
+            color: white;
+        }
+        
+        .text-input {
+            padding: 10px;
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+        
+        .text-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #submit-btn {
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            color: white;
+        }
+        
+        #submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #219653, #27ae60);
+        }
+        
+        #reset-btn {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        #reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #c0392b, #a93226);
+        }
+        
+        .results-container {
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+        
+        .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            color: #27ae60;
+            display: block;
+            margin: 15px 0;
+        }
+        
+        .feedback {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        
+        .correct-answers {
+            text-align: left;
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .correct-answer {
+            margin: 15px 0;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            background: #e3f2fd;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .correct-answer h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .arabic-text {
+            font-family: 'Traditional Arabic', 'Microsoft Sans Serif', sans-serif;
+            font-size: 1.8rem;
+            text-align: right;
+            direction: rtl;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .question {
+                padding: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        .progress-container {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 0 0 15px 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tecvid Bilgisi Testi</h1>
+            <div class="subtitle">Kur'an-ı Kerim Okuma Kuralları - Tecvid Sınavı</div>
+        </header>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="questions-container" id="questions-container">
+            <!-- Soru 1 -->
+            <div class="question" id="q1">
+                <div class="question-header">
+                    <div class="question-number">Soru 1</div>
+                </div>
+                <div class="question-text">
+                    Aşağıdaki cümlelerden doğru olanı D, yanlışı olanı Y yazarak işaretleyelim.
+                </div>
+                
+                <div class="options">
+                    <div class="question-part">
+                        <p>1. İdğam-ı Misleyn, aynı olan iki harften birincisi sakin, ikincisi harekeli olarak art arda gelmesiyle olur.</p>
+                        <div class="true-false-options">
+                            <button class="true-false-btn true" data-index="0" data-value="D">D (Doğru)</button>
+                            <button class="true-false-btn false" data-index="0" data-value="Y">Y (Yanlış)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-part">
+                        <p>2. İdğam-ı Mütecaniseyn mahreçleri aynı sıfatları farklı olan 3 harf grubunda meydana gelir.</p>
+                        <div class="true-false-options">
+                            <button class="true-false-btn true" data-index="1" data-value="D">D (Doğru)</button>
+                            <button class="true-false-btn false" data-index="1" data-value="Y">Y (Yanlış)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-part">
+                        <p>3. İdğam-ı Mütekaribeyn, aynı mahreçten gelen aynı iki harf arasında olur.</p>
+                        <div class="true-false-options">
+                            <button class="true-false-btn true" data-index="2" data-value="D">D (Doğru)</button>
+                            <button class="true-false-btn false" data-index="2" data-value="Y">Y (Yanlış)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-part">
+                        <p>4. İzhar-ı Kameriyye' de elif lam (ال) okunmaz, gizlenir.</p>
+                        <div class="true-false-options">
+                            <button class="true-false-btn true" data-index="3" data-value="D">D (Doğru)</button>
+                            <button class="true-false-btn false" data-index="3" data-value="Y">Y (Yanlış)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="question-part">
+                        <p>5. "م" durağında durmak gerekir. Çünkü bundan sonra gelecek kısmın önceki kısım ile alakası yoktur. Yeni cümledir.</p>
+                        <div class="true-false-options">
+                            <button class="true-false-btn true" data-index="4" data-value="D">D (Doğru)</button>
+                            <button class="true-false-btn false" data-index="4" data-value="Y">Y (Yanlış)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 2 -->
+            <div class="question" id="q2">
+                <div class="question-header">
+                    <div class="question-number">Soru 2</div>
+                </div>
+                <div class="question-text">
+                    Aşağıdaki duraklardan hangilerinin anlamları doğrudur? (Birden fazla seçenek işaretleyebilirsiniz)
+                </div>
+                
+                <div class="options">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q2a" name="q2" value="a">
+                        <label for="q2a">a) "◌ۘ" durmak gerekir. Durulmadığında mana bozulur.</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q2b" name="q2" value="b">
+                        <label for="q2b">b) "◌ۖ" durmakta maslahat vardır. Durmak daha iyidir.</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q2c" name="q2" value="c">
+                        <label for="q2c">c) "◌ۚ" geçmek daha iyidir, aynı zamanda durulabilir.</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q2d" name="q2" value="d">
+                        <label for="q2d">d) "◌ۗ" okuyanın nefesi yetmediğinde zaruretten dolayı durmaya müsaade edilen duraktır. Nefes yetmeyip durulduğunda geri dönülerek ayet yeniden alınmaz; nefes yettiğinde de durulmaz.</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q2e" name="q2" value="e">
+                        <label for="q2e">e) "◌ۙ" durulur da, geçilir de. Çoğu alime göre durmamak lazımdır.</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 3 -->
+            <div class="question" id="q3">
+                <div class="question-header">
+                    <div class="question-number">Soru 3</div>
+                </div>
+                <div class="question-text">
+                    <div class="arabic-text">رَبَّنَا إِنَّا فِي الدُّنْيَا حَسَنَةٌ وَفِي الْآخِرَةِ حَسَنَةٌ</div>
+                    <p>Yukarıdaki ayette geçen tecvid kuralları hangi seçenekte doğru verilmiştir?</p>
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q3" id="q3a" value="a">
+                        <label for="q3a">a) İdğam-ı Misleyn Bila Gunne, Meddi Munfasıl, Meddi Tabıî, Meddi Tabıî, İdğam-ı Şemsiyye, ﷺ kelimesi İzhar ile okunur, İdğam-ı meal gunne, İzhar-ı Kameriyye, Meddi Tabıî, Ra'nın hükmü kalın okunur.</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q3" id="q3b" value="b">
+                        <label for="q3b">b) İklab, Meddi Muttasıl, Meddi Tabıî, İzhar-ı Kameriyye, Meddi Tabıî, İdğamı Şemsiyye</label>
+                    </div>
+                    
+                    <div class="option" data-value="c">
+                        <input type="radio" name="q3" id="q3c" value="c">
+                        <label for="q3c">c) Meddi Munfasıl, meddi tabıî, ihfa, idğam-ı bila gunne, izhar</label>
+                    </div>
+                    
+                    <div class="option" data-value="d">
+                        <input type="radio" name="q3" id="q3d" value="d">
+                        <label for="q3d">d) Meddi Muttasıl, meddi tabıî, idğam-ı şemsiyye, izhar, idğam-ı bila gunne, meddi tabıî, ra'nın hükmü kalın okunur.</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 4 -->
+            <div class="question" id="q4">
+                <div class="question-header">
+                    <div class="question-number">Soru 4</div>
+                </div>
+                <div class="question-text">
+                    <p>Lügat manası "örtmek ve gizlemek" demektir. Tecvid manası ise "İzhar ile İdğam arasında şeddesiz ve gunneli olarak okumaya _____ denir."</p>
+                    <p>Boşluğu uygun kelime ile doldurunuz.</p>
+                    <input type="text" class="text-input" id="q4-part1" placeholder="Cevabınızı buraya yazınız">
+                    
+                    <p>Aşağıdaki kelimelerin hangisinde ihfa vardır?</p>
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q4-part2" id="q4a" value="a">
+                        <label for="q4a">a) غَلَّ نَفْسِ</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q4-part2" id="q4b" value="b">
+                        <label for="q4b">b) أَيْنَ بَسْمَلْتَ</label>
+                    </div>
+                    
+                    <div class="option" data-value="c">
+                        <input type="radio" name="q4-part2" id="q4c" value="c">
+                        <label for="q4c">c) مِنْكُمْ يَنْصُرْ</label>
+                    </div>
+                    
+                    <div class="option" data-value="d">
+                        <input type="radio" name="q4-part2" id="q4d" value="d">
+                        <label for="q4d">d) مِنْ رِزْقِ</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 5 -->
+            <div class="question" id="q5">
+                <div class="question-header">
+                    <div class="question-number">Soru 5</div>
+                </div>
+                <div class="question-text">
+                    Aşağıdaki kelimelerin hangisi İdğam-ı Misleyn Meal Gunnedir?
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q5" id="q5a" value="a">
+                        <label for="q5a">a) مُؤْصَدَةً</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q5" id="q5b" value="b">
+                        <label for="q5b">b) مِنْهُمْ</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 6 -->
+            <div class="question" id="q6">
+                <div class="question-header">
+                    <div class="question-number">Soru 6</div>
+                </div>
+                <div class="question-text">
+                    "وَقُل رَّبِّ" kelimesinde hangi tecvid kuralı vardır?
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q6" id="q6a" value="a">
+                        <label for="q6a">a) İzhar</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q6" id="q6b" value="b">
+                        <label for="q6b">b) İdğam-ı Mütecaniseyn</label>
+                    </div>
+                    
+                    <div class="option" data-value="c">
+                        <input type="radio" name="q6" id="q6c" value="c">
+                        <label for="q6c">c) İdğam-ı Şemsiyye</label>
+                    </div>
+                    
+                    <div class="option" data-value="d">
+                        <input type="radio" name="q6" id="q6d" value="d">
+                        <label for="q6d">d) İklab</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 7 -->
+            <div class="question" id="q7">
+                <div class="question-header">
+                    <div class="question-number">Soru 7</div>
+                </div>
+                <div class="question-text">
+                    Aşağıdaki kelimelerden hangilerinde <strong>İzhar-ı Kameriyye</strong> uygulanmıştır? (Birden fazla seçenek işaretleyebilirsiniz)
+                </div>
+                
+                <div class="options">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q7a" name="q7" value="a">
+                        <label for="q7a">a) الْفَتْرَةَ</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q7b" name="q7" value="b">
+                        <label for="q7b">b) الْغَزْلَ</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q7c" name="q7" value="c">
+                        <label for="q7c">c) الثَّوْبَ</label>
+                    </div>
+                    
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="q7d" name="q7" value="d">
+                        <label for="q7d">d) الْجُمْعَةَ</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 8 -->
+            <div class="question" id="q8">
+                <div class="question-header">
+                    <div class="question-number">Soru 8</div>
+                </div>
+                <div class="question-text">
+                    Aşağıdaki harf gruplarından hangisi <strong>İdğam-ı Mütecaniseyn</strong> oluşturmaz?
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q8" id="q8a" value="a">
+                        <label for="q8a">a) ث، د، ط</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q8" id="q8b" value="b">
+                        <label for="q8b">b) ث، ذ، ط</label>
+                    </div>
+                    
+                    <div class="option" data-value="c">
+                        <input type="radio" name="q8" id="q8c" value="c">
+                        <label for="q8c">c) ث، ب</label>
+                    </div>
+                    
+                    <div class="option" data-value="d">
+                        <input type="radio" name="q8" id="q8d" value="d">
+                        <label for="q8d">d) ث، ك</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 9 -->
+            <div class="question" id="q9">
+                <div class="question-header">
+                    <div class="question-number">Soru 9</div>
+                </div>
+                <div class="question-text">
+                    Aşağıdaki hangi kelimede sakin mim (مْ) halleri <strong>yoktur</strong>?
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q9" id="q9a" value="a">
+                        <label for="q9a">a) أَمَنْ</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q9" id="q9b" value="b">
+                        <label for="q9b">b) رُبَّهُمْ يَوْمُ</label>
+                    </div>
+                    
+                    <div class="option" data-value="c">
+                        <input type="radio" name="q9" id="q9c" value="c">
+                        <label for="q9c">c) خَلَقْنَا</label>
+                    </div>
+                    
+                    <div class="option" data-value="d">
+                        <input type="radio" name="q9" id="q9d" value="d">
+                        <label for="q9d">d) وَلَكُمْ يَفْعَلُ مَا</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Soru 10 -->
+            <div class="question" id="q10">
+                <div class="question-header">
+                    <div class="question-number">Soru 10</div>
+                </div>
+                <div class="question-text">
+                    Hangi harf grubunda <strong>İdğam-ı Mütekaribeyn</strong> oluşur?
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-value="a">
+                        <input type="radio" name="q10" id="q10a" value="a">
+                        <label for="q10a">a) ق، ك</label>
+                    </div>
+                    
+                    <div class="option" data-value="b">
+                        <input type="radio" name="q10" id="q10b" value="b">
+                        <label for="q10b">b) ل، ر</label>
+                    </div>
+                    
+                    <div class="option" data-value="c">
+                        <input type="radio" name="q10" id="q10c" value="c">
+                        <label for="q10c">c) ث، ذ، ط</label>
+                    </div>
+                    
+                    <div class="option" data-value="d">
+                        <input type="radio" name="q10" id="q10d" value="d">
+                        <label for="q10d">d) ج، م، ن، و</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="submit-btn">Testi Bitir ve Sonuçları Gör</button>
+            <button id="reset-btn">Cevapları Sıfırla</button>
+        </div>
+        
+        <div class="results-container" id="results-container">
+            <h2>Test Sonuçları</h2>
+            <div class="score">Puanınız: <span class="score-value" id="score-value">0</span></div>
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="correct-answers">
+                <h3>Doğru Cevaplar:</h3>
+                <div class="correct-answer" id="correct-answer-q1">
+                    <h3>Soru 1</h3>
+                    <p>1. D (Doğru)</p>
+                    <p>2. Y (Yanlış)</p>
+                    <p>3. Y (Yanlış)</p>
+                    <p>4. Y (Yanlış)</p>
+                    <p>5. D (Doğru)</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q2">
+                    <h3>Soru 2</h3>
+                    <p>a) Doğru</p>
+                    <p>b) Doğru</p>
+                    <p>c) Yanlış</p>
+                    <p>d) Doğru</p>
+                    <p>e) Yanlış</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q3">
+                    <h3>Soru 3</h3>
+                    <p>Doğru cevap: a</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q4">
+                    <h3>Soru 4</h3>
+                    <p>Boşluk: ihfa</p>
+                    <p>Doğru seçenek: c</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q5">
+                    <h3>Soru 5</h3>
+                    <p>Doğru cevap: a</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q6">
+                    <h3>Soru 6</h3>
+                    <p>Doğru cevap: b</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q7">
+                    <h3>Soru 7</h3>
+                    <p>Doğru cevaplar: a ve c</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q8">
+                    <h3>Soru 8</h3>
+                    <p>Doğru cevap: d</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q9">
+                    <h3>Soru 9</h3>
+                    <p>Doğru cevap: d</p>
+                </div>
+                
+                <div class="correct-answer" id="correct-answer-q10">
+                    <h3>Soru 10</h3>
+                    <p>Doğru cevap: a</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            Tecvid Testi &copy; 2023 - Kur'an-ı Kerim Okuma Kuralları
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Option seçimlerini kolaylaştırma
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        // Seçili görünüm ekle
+                        document.querySelectorAll('.option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                    }
+                });
+            });
+            
+            // Doğru/Yanlış butonları
+            const trueFalseBtns = document.querySelectorAll('.true-false-btn');
+            trueFalseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.getAttribute('data-index');
+                    const parent = this.parentElement;
+                    
+                    // Aynı sorudaki diğer butonlardan seçimi kaldır
+                    parent.querySelectorAll('.true-false-btn').forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                    
+                    // Tıklanan butonu seçili yap
+                    this.classList.add('selected');
+                });
+            });
+            
+            // İlerleme çubuğu güncelleme
+            function updateProgressBar() {
+                let answered = 0;
+                const totalQuestions = 10;
+                
+                // Soru 1 için kontrol
+                const q1Answered = document.querySelectorAll('#q1 .true-false-btn.selected').length === 5;
+                if (q1Answered) answered++;
+                
+                // Soru 2 için kontrol
+                const q2Checkboxes = document.querySelectorAll('#q2 input[type="checkbox"]:checked');
+                if (q2Checkboxes.length > 0) answered++;
+                
+                // Diğer sorular için kontrol
+                for (let i = 3; i <= 10; i++) {
+                    if (i === 4) {
+                        // Soru 4 (2 kısım)
+                        const q4Part1 = document.getElementById('q4-part1').value.trim();
+                        const q4Part2 = document.querySelector('input[name="q4-part2"]:checked');
+                        if (q4Part1 && q4Part2) answered++;
+                    } else if (i === 7) {
+                        // Soru 7 (checkbox)
+                        const q7Checkboxes = document.querySelectorAll('#q7 input[type="checkbox"]:checked');
+                        if (q7Checkboxes.length > 0) answered++;
+                    } else {
+                        // Radio butonlu sorular
+                        if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+                    }
+                }
+                
+                const progress = (answered / totalQuestions) * 100;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+            }
+            
+            // Tüm girişler için ilerleme çubuğunu güncelle
+            document.querySelectorAll('input, .true-false-btn').forEach(element => {
+                element.addEventListener('change', updateProgressBar);
+            });
+            document.querySelectorAll('.true-false-btn').forEach(btn => {
+                btn.addEventListener('click', updateProgressBar);
+            });
+            
+            // Testi bitir butonu
+            document.getElementById('submit-btn').addEventListener('click', function() {
+                let score = 0;
+                const totalQuestions = 10;
+                const maxPoints = 20; // Toplam puan
+                
+                // Soru 1 kontrolü (5 puan - her ifade 1 puan)
+                const q1Answers = [];
+                for (let i = 0; i < 5; i++) {
+                    const selectedBtn = document.querySelector(`.true-false-btn[data-index="${i}"].selected`);
+                    q1Answers.push(selectedBtn ? selectedBtn.getAttribute('data-value') : null);
+                }
+                
+                // Doğru cevaplar: [D, Y, Y, Y, D]
+                if (q1Answers[0] === 'D') score++;
+                if (q1Answers[1] === 'Y') score++;
+                if (q1Answers[2] === 'Y') score++;
+                if (q1Answers[3] === 'Y') score++;
+                if (q1Answers[4] === 'D') score++;
+                
+                // Soru 2 kontrolü (5 puan - her doğru seçenek 1 puan)
+                const q2a = document.getElementById('q2a').checked;
+                const q2b = document.getElementById('q2b').checked;
+                const q2c = document.getElementById('q2c').checked;
+                const q2d = document.getElementById('q2d').checked;
+                const q2e = document.getElementById('q2e').checked;
+                
+                // Doğru cevaplar: a, b, d (c ve e yanlış)
+                if (q2a) score++; // Doğru
+                if (q2b) score++; // Doğru
+                if (!q2c) score++; // Yanlış seçilmemeli
+                if (q2d) score++; // Doğru
+                if (!q2e) score++; // Yanlış seçilmemeli
+                
+                // Soru 3 kontrolü (1 puan)
+                const q3Answer = document.querySelector('input[name="q3"]:checked');
+                if (q3Answer && q3Answer.value === 'a') score++;
+                
+                // Soru 4 kontrolü (2 puan - her kısım 1 puan)
+                const q4Part1 = document.getElementById('q4-part1').value.trim().toLowerCase();
+                const q4Part2 = document.querySelector('input[name="q4-part2"]:checked');
+                
+                if (q4Part1 === 'ihfa') score++;
+                if (q4Part2 && q4Part2.value === 'c') score++;
+                
+                // Soru 5 kontrolü (1 puan)
+                const q5Answer = document.querySelector('input[name="q5"]:checked');
+                if (q5Answer && q5Answer.value === 'a') score++;
+                
+                // Soru 6 kontrolü (1 puan)
+                const q6Answer = document.querySelector('input[name="q6"]:checked');
+                if (q6Answer && q6Answer.value === 'b') score++;
+                
+                // Soru 7 kontrolü (2 puan - her doğru seçenek 1 puan)
+                const q7a = document.getElementById('q7a').checked;
+                const q7b = document.getElementById('q7b').checked;
+                const q7c = document.getElementById('q7c').checked;
+                const q7d = document.getElementById('q7d').checked;
+                
+                // Doğru cevaplar: a ve c (b ve d yanlış)
+                if (q7a) score++;
+                if (!q7b) score++;
+                if (q7c) score++;
+                if (!q7d) score++;
+                
+                // Soru 8 kontrolü (1 puan)
+                const q8Answer = document.querySelector('input[name="q8"]:checked');
+                if (q8Answer && q8Answer.value === 'd') score++;
+                
+                // Soru 9 kontrolü (1 puan)
+                const q9Answer = document.querySelector('input[name="q9"]:checked');
+                if (q9Answer && q9Answer.value === 'd') score++;
+                
+                // Soru 10 kontrolü (1 puan)
+                const q10Answer = document.querySelector('input[name="q10"]:checked');
+                if (q10Answer && q10Answer.value === 'a') score++;
+                
+                // Puan hesapla (20 üzerinden)
+                const calculatedScore = Math.round((score / maxPoints) * 100);
+                
+                // Sonuçları göster
+                document.getElementById('score-value').textContent = `${calculatedScore}`;
+                document.getElementById('questions-container').style.display = 'none';
+                document.getElementById('results-container').style.display = 'block';
+                document.querySelector('.controls').style.display = 'none';
+                
+                // Geri bildirim mesajı
+                const feedback = document.getElementById('feedback');
+                if (calculatedScore >= 85) {
+                    feedback.textContent = 'Mükemmel! Tecvid kurallarını çok iyi biliyorsunuz.';
+                    feedback.style.color = '#27ae60';
+                } else if (calculatedScore >= 70) {
+                    feedback.textContent = 'Tebrikler! Tecvid bilginiz iyi düzeyde.';
+                    feedback.style.color = '#2980b9';
+                } else if (calculatedScore >= 50) {
+                    feedback.textContent = 'Orta düzeyde bilginiz var, daha çok çalışmalısınız.';
+                    feedback.style.color = '#f39c12';
+                } else {
+                    feedback.textContent = 'Tecvid kurallarını tekrar çalışmanız gerekiyor.';
+                    feedback.style.color = '#e74c3c';
+                }
+                
+                // Sayfayı sonuçlara kaydır
+                document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Sıfırla butonu
+            document.getElementById('reset-btn').addEventListener('click', function() {
+                // Tüm seçimleri sıfırla
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                document.querySelectorAll('.text-input').forEach(input => {
+                    input.value = '';
+                });
+                
+                document.querySelectorAll('.true-false-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // İlerleme çubuğunu sıfırla
+                document.getElementById('progress-bar').style.width = '0%';
+            });
+        });
+    </script>
+</body>
+</html>

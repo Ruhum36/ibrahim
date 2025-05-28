@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecvid Testi</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .question-block h3 {
+            margin-top: 0;
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .question-block p.question-text {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .question-block .sub-question {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #e9ecef;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .options label:hover {
+            background-color: #dde2e6;
+        }
+
+        .options input[type="radio"],
+        .options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .arabic-text {
+            font-family: ' Amiri', 'KFGQPC Uthman Taha Naskh', 'Traditional Arabic', serif; /* Öncelikli Arapça fontlar */
+            font-size: 1.4em;
+            direction: rtl;
+            text-align: right;
+            color: #006699;
+            margin: 10px 0;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .result.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .result.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .correct-answer {
+            background-color: #c3e6cb !important; /* Correct answer highlight */
+            border: 1px solid #155724;
+        }
+        .incorrect-answer {
+             background-color: #f5c6cb !important; /* Incorrect selection highlight */
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tecvid Testi</h1>
+
+        <form id="tecvidTestForm">
+
+            <div class="question-block" id="q1">
+                <h3>Soru 1:</h3>
+                <p class="question-text">Aşağıdaki cümlelerden doğru olanı <strong>D</strong>, yanlışı olanı <strong>Y</strong> olarak işaretleyelim.</p>
+                <div class="options">
+                    <div class="sub-question" data-correct-q1="d">
+                        <span>İdğam-ı Misleyn, aynı olan iki harften birincisi sakin, ikincisi harekeli olarak art arda gelmesiyle olur.</span><br>
+                        <label><input type="radio" name="q1_1" value="d"> D</label>
+                        <label><input type="radio" name="q1_1" value="y"> Y</label>
+                    </div>
+                    <div class="sub-question" data-correct-q1="y"> <span>İdğam-ı Mütecaniseyn mahreçleri aynı sıfatları farklı olan 3 harf grubunda meydana gelir.</span><br>
+                        <label><input type="radio" name="q1_2" value="d"> D</label>
+                        <label><input type="radio" name="q1_2" value="y"> Y</label>
+                    </div>
+                    <div class="sub-question" data-correct-q1="y"> <span>İdğam-ı Mütekaribeyn, aynı mahreçten gelen aynı iki harf arasında olur.</span><br>
+                        <label><input type="radio" name="q1_3" value="d"> D</label>
+                        <label><input type="radio" name="q1_3" value="y"> Y</label>
+                    </div>
+                     <div class="sub-question" data-correct-q1="y"> <span>İzhâr-ı Kameriyye' de elif lam (ال) okunmaz, gizlenir.</span><br>
+                        <label><input type="radio" name="q1_4" value="d"> D</label>
+                        <label><input type="radio" name="q1_4" value="y"> Y</label>
+                    </div>
+                     <div class="sub-question" data-correct-q1="d">
+                        <span>"ل" durağında durmak gerekir. Çünkü bundan sonra gelecek kısmın önceki kısım ile alakası yoktur. Yeni cümledir.</span><br>
+                        <label><input type="radio" name="q1_5" value="d"> D</label>
+                        <label><input type="radio" name="q1_5" value="y"> Y</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" id="q2">
+                <h3>Soru 2:</h3>
+                <p class="question-text">Aşağıdaki duraklardan hangisinin anlamı doğrudur?</p>
+                <div class="options" data-correct-answer="b">
+                    <label><input type="radio" name="q2" value="a"> "م" durmak gerekir. Durulmadığında mana bozulur.</label>
+                    <label><input type="radio" name="q2" value="b"> "ق" durmakta maslahat vardır. Durmak daha iyidir.</label>
+                    <label><input type="radio" name="q2" value="c"> "ج" geçmek daha iyidir, aynı zamanda durulabilir.</label>
+                    <label><input type="radio" name="q2" value="d"> "ص" okuyanın nefesi yetmediğinde zaruretten dolayı durmaya müsaade edilen duraktır. Nefes yetmeyip durulduğunda geri dönülerek ayet yeniden alınmaz; nefes yettiğinde de durulmaz.</label>
+                    <label><input type="radio" name="q2" value="e"> "لا" durulur da, geçilir de. Çoğu alime göre durmamak lazımdır.</label>
+                </div>
+            </div>
+
+            <div class="question-block" id="q3">
+                <h3>Soru 3:</h3>
+                <p class="arabic-text">رَبَّنَا اٰتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْاٰخِرَةِ</p>
+                <p class="question-text">Yukarıdaki ayette geçen tecvid kuralları hangi seçenekte doğru verilmiştir?</p>
+                <div class="options" data-correct-answer="d"> <label><input type="radio" name="q3" value="a"> a) İdğam-ı Misleyn Bila Gunne, Meddi Munfasıl, Meddi Tabiî, Meddi Tabiî İdğam-ı Şemsiyye, الدُّنْيَا kelimesi. İzhar ile okunur, İdğam-ı meal gunne, İzhar-ı Kameriyye, Meddi Tabiî, Ra'nın hükmü kalın okunur.</label>
+                    <label><input type="radio" name="q3" value="b"> b) İklab, Meddi Muttasıl, Meddi Tabiî, İzhar-ı Kameriyye, Meddi Tabiî, İdğamı Şemsiyye</label>
+                    <label><input type="radio" name="q3" value="c"> c) Meddi Munfasıl, meddi tabiî, ihfa, idğam-ı bila gunne, izhar</label>
+                    <label><input type="radio" name="q3" value="d"> d) Meddi Muttasıl, meddi tabiî, idğam-ı şemsiyye, izhar, idğam-ı bila gunne, meddi tabiî, ra'nın hükmü kalın okunur.</label>
+                </div>
+            </div>
+
+            <div class="question-block" id="q4">
+                <h3>Soru 4:</h3>
+                <p class="question-text">Lügat manası "örtmek ve gizlemek" demektir. Tecvid manası ise "İzhar ile İdğam arasında şeddesiz ve gunneli olarak okumaya <u style="text-decoration-style: dotted;">ihfa</u> denir." <br> (Not: Boşluk "ihfa" olarak doldurulmuştur, sorunun devamı aşağıdaki kelimelerle ilgilidir.)</p>
+                <p class="question-text">Aşağıdaki kelimelerin hangisinde <strong>ihfa</strong> vardır?</p>
+                <div class="options" data-correct-answer="c">
+                    <label><input type="radio" name="q4" value="a" class="arabic-text">عَنْ نَفْسٍ</label>
+                    <label><input type="radio" name="q4" value="b" class="arabic-text">لَئِنْ بَسَطْتَ</label>
+                    <label><input type="radio" name="q4" value="c" class="arabic-text">يَنْصُرْكُمْ</label>
+                    <label><input type="radio" name="q4" value="d" class="arabic-text">مِنْ رِزْقٍ</label>
+                </div>
+            </div>
+
+            <div class="question-block" id="q5">
+                <h3>Soru 5:</h3>
+                <p class="question-text">Aşağıdaki kelimelerin hangisi <strong>İdğam-ı Misleyn Meal Gunne</strong>dir?</p>
+                <div class="options" data-correct-answer="c"> <label><input type="radio" name="q5" value="a" class="arabic-text">مُؤْصَدَةٌ</label>
+                    <label><input type="radio" name="q5" value="b" class="arabic-text">مِنْهُمْ</label>
+                    <label><input type="radio" name="q5" value="c" class="arabic-text">مَا لَكُمْ مِنْ اللهِ</label>
+                    <label><input type="radio" name="q5" value="d"> hepsi</label>
+                </div>
+            </div>
+
+            <div class="question-block" id="q6">
+                <h3>Soru 6:</h3>
+                <p class="arabic-text">الرَّحْمٰنِ</p>
+                <p class="question-text">Yukarıdaki kelimede hangi tecvid kuralı vardır?</p>
+                <div class="options" data-correct-answer="c">
+                    <label><input type="radio" name="q6" value="a"> İzhar</label>
+                    <label><input type="radio" name="q6" value="b"> İdğam-ı Mütecaniseyn</label>
+                    <label><input type="radio" name="q6" value="c"> İdğam-ı Şemsiyye</label>
+                    <label><input type="radio" name="q6" value="d"> İklab</label>
+                </div>
+            </div>
+
+            <div class="question-block" id="q7">
+                <h3>Soru 7:</h3>
+                <p class="question-text">Aşağıdaki kelimelerden hangilerinde <strong>İzhar-ı Kameriyye</strong> uygulanmıştır?</p>
+                 <div class="options" data-correct-answer="all_kamariyya"> <label><input type="checkbox" name="q7" value="a" class="arabic-text">الْقَمَرُ</label>
+                    <label><input type="checkbox" name="q7" value="b" class="arabic-text">الْعَيْنُ</label>
+                    <label><input type="checkbox" name="q7" value="c" class="arabic-text">التَّوْبَةُ (Şemsiyye)</label>
+                    <label><input type="checkbox" name="q7" value="d" class="arabic-text">الْجُمُعَةُ</label>
+                </div>
+            </div>
+
+            <div class="question-block" id="q8">
+                <h3>Soru 8:</h3>
+                <p class="question-text">Aşağıdaki harf grubundan hangisi <strong>İdğam-ı Mütecaniseyn</strong> oluşturmaz?</p>
+                <div class="options" data-correct-answer="c"> <label><input type="radio" name="q8" value="a"> ت، د، ط</label>
+                    <label><input type="radio" name="q8" value="b"> ث، ذ، ظ</label>
+                    <label><input type="radio" name="q8" value="c"> م، ب</label>
+                    <label><input type="radio" name="q8" value="d"> ق، ك (Bunlar mütekaribeyn)</label>
+                </div>
+                 <p style="font-size:0.9em; color:gray;">Not: Şıklarda hem mütecaniseyn olmayan (c) hem de mütekaribeyn olan (d) var. Sorunun en net "oluşturmaz" cevabı "c" şıkkıdır.</p>
+            </div>
+
+            <div class="question-block" id="q9">
+                <h3>Soru 9:</h3>
+                <p class="question-text">Aşağıdaki hangi kelimede sakin mim (مْ) halleri <strong>yoktur</strong>?</p>
+                <div class="options" data-correct-answer="a">
+                    <label><input type="radio" name="q9" value="a" class="arabic-text">اٰمَنَ</label>
+                    <label><input type="radio" name="q9" value="b" class="arabic-text">رَبُّهُمْ بِهِمْ</label>
+                    <label><input type="radio" name="q9" value="c" class="arabic-text">خَلَقْنَا</label> <label><input type="radio" name="q9" value="d" class="arabic-text">وَلَكُمْ فِيْهَا مَا</label>
+                </div>
+                 <p style="font-size:0.9em; color:gray;">Not: "a" şıkkında med harfi olan eliften önce gelen hemze (ءَامَنَ) durumu var, sakin mim yok. "c" şıkkında sakin nun var. Soru "sakin mim halleri" dediği için en bariz olmayan şık "a". Eğer kasıt sadece sakin mim ise "c" de olabilir. Orijinal metinde "a" işaretli gibi duruyor.</p>
+            </div>
+
+            <div class="question-block" id="q10">
+                <h3>Soru 10:</h3>
+                <p class="question-text">Hangi harf grubunda <strong>İdğam-ı Mütekaribeyn</strong> oluşur?</p>
+                <div class="options" data-correct-answer="b"> <label><input type="radio" name="q10" value="a"> ق، ك</label>
+                    <label><input type="radio" name="q10" value="b"> ل، ر</label>
+                    <label><input type="radio" name="q10" value="c"> ث، ذ، ظ (Bunlar mütecaniseyn)</label>
+                    <label><input type="radio" name="q10" value="d"> ي، م، ن، و (Bunlar İdğam Meal Gunne harfleri)</label>
+                </div>
+            </div>
+
+            <button type="button" onclick="checkAnswers()">Cevapları Kontrol Et</button>
+            <div id="resultArea" class="result" style="display:none;"></div>
+        </form>
+    </div>
+
+    <script>
+        // Doğru cevapları burada tanımlıyoruz.
+        // Soru 1 için: her bir alt sorunun doğru cevabını (d veya y) data-correct-q1 içinde sakladık.
+        // Diğer sorular için doğru şıkkı data-correct-answer içinde sakladık.
+        // Soru 7 için özel bir durum var, birden fazla doğru cevap olabilir (checkbox).
+        // Soru 7'nin doğru şıkları: a, b, d
+
+        function checkAnswers() {
+            let score = 0;
+            let totalQuestions = 0; // Soru 1'i ayrı sayacağız
+
+            // Soru 1
+            const q1SubQuestions = document.querySelectorAll('#q1 .sub-question');
+            totalQuestions += q1SubQuestions.length;
+            q1SubQuestions.forEach((sub, index) => {
+                const correctAnswer = sub.dataset.correctQ1;
+                const selectedAnswer = document.querySelector(`input[name="q1_${index+1}"]:checked`);
+                const labels = sub.querySelectorAll('label');
+                labels.forEach(l => l.classList.remove('correct-answer', 'incorrect-answer'));
+
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === correctAnswer) {
+                        score++;
+                        selectedAnswer.parentElement.classList.add('correct-answer');
+                    } else {
+                        selectedAnswer.parentElement.classList.add('incorrect-answer');
+                        // Doğru olanı da gösterelim
+                        const correctRadio = sub.querySelector(`input[value="${correctAnswer}"]`);
+                        if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+                    }
+                } else {
+                    // Cevaplanmamışsa doğru olanı göster
+                     const correctRadio = sub.querySelector(`input[value="${correctAnswer}"]`);
+                     if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+                }
+            });
+
+
+            // Soru 2'den 10'a (Soru 7 hariç)
+            for (let i = 2; i <= 10; i++) {
+                if (i === 7) continue; // Soru 7'yi ayrı ele alacağız
+
+                const questionBlock = document.getElementById(`q${i}`);
+                if (!questionBlock) continue;
+                
+                totalQuestions++;
+                const correctAnswer = questionBlock.querySelector('.options').dataset.correctAnswer;
+                const selectedAnswer = document.querySelector(`input[name="q${i}"]:checked`);
+                const optionLabels = questionBlock.querySelectorAll('.options label');
+                
+                optionLabels.forEach(label => {
+                    label.classList.remove('correct-answer', 'incorrect-answer');
+                    if (label.querySelector('input').value === correctAnswer) {
+                        label.classList.add('correct-answer'); // Her zaman doğruyu göster
+                    }
+                });
+
+                if (selectedAnswer) {
+                    if (selectedAnswer.value === correctAnswer) {
+                        score++;
+                        // Zaten correct-answer class'ı eklendi
+                    } else {
+                        selectedAnswer.parentElement.classList.add('incorrect-answer');
+                    }
+                }
+            }
+
+            // Soru 7 (Checkbox'lar)
+            const q7Block = document.getElementById('q7');
+            if (q7Block) {
+                totalQuestions++; // Soru 7'yi tek bir soru olarak sayıyoruz
+                const correctAnswersQ7 = ['a', 'b', 'd'];
+                const selectedCheckboxes = document.querySelectorAll('input[name="q7"]:checked');
+                const allCheckboxesLabelsQ7 = q7Block.querySelectorAll('.options label');
+                let q7Correct = true;
+                let selectedValuesQ7 = [];
+
+                allCheckboxesLabelsQ7.forEach(label => {
+                    label.classList.remove('correct-answer', 'incorrect-answer');
+                    const checkbox = label.querySelector('input');
+                    if (correctAnswersQ7.includes(checkbox.value)) {
+                        label.classList.add('correct-answer'); // Doğru olanları her zaman işaretle
+                    }
+                });
+                
+                selectedCheckboxes.forEach(cb => selectedValuesQ7.push(cb.value));
+
+                if (selectedValuesQ7.length === correctAnswersQ7.length) {
+                    selectedValuesQ7.sort();
+                    correctAnswersQ7.sort();
+                    for(let k=0; k < selectedValuesQ7.length; k++){
+                        if(selectedValuesQ7[k] !== correctAnswersQ7[k]){
+                            q7Correct = false;
+                            break;
+                        }
+                    }
+                } else {
+                    q7Correct = false;
+                }
+
+                if(q7Correct) {
+                    score++;
+                } else {
+                     selectedCheckboxes.forEach(cb => {
+                        if (!correctAnswersQ7.includes(cb.value)) {
+                            cb.parentElement.classList.add('incorrect-answer'); // Yanlış seçilenleri işaretle
+                        }
+                    });
+                }
+            }
+
+
+            const resultArea = document.getElementById('resultArea');
+            resultArea.innerHTML = `Toplam ${totalQuestions} sorudan ${score} tanesini doğru cevapladınız.`;
+            resultArea.className = 'result'; // Reset classes
+            if (score === totalQuestions) {
+                resultArea.classList.add('success');
+            } else {
+                 resultArea.classList.add(score > totalQuestions / 2 ? 'success' : 'error'); // Ya da bir eşik belirleyebilirsiniz
+            }
+            resultArea.style.display = 'block';
+
+            // Sayfayı sonuçların olduğu yere kaydır
+            resultArea.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
