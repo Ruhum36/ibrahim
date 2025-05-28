@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecvid Testi - Modern İnteraktif Sınav Sistemi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .KapsayiciContainer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .TestBasligiAlani {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        .TestBasligiAlani h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+        
+        .TestBasligiAlani p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .SoruKonteynerAlani {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+        
+        .SoruKonteynerAlani:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .SoruBasligiAlani {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .SoruMetniAlani {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #444;
+            line-height: 1.8;
+        }
+        
+        .ArapMetinAlani {
+            font-size: 1.8rem;
+            text-align: right;
+            direction: rtl;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #e9ecef;
+            font-family: 'Amiri', 'Times New Roman', serif;
+        }
+        
+        .SeceneklerAlani {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .SecenekButonAlani {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .SecenekButonAlani:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .SecenekButonAlani.SeciliSecenek {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+        
+        .SecenekButonAlani input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .SecenekButonAlani .SecenekIsaretiAlani {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .SecenekButonAlani.SeciliSecenek .SecenekIsaretiAlani {
+            border-color: white;
+            background: white;
+        }
+        
+        .SecenekButonAlani.SeciliSecenek .SecenekIsaretiAlani::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .DogruYanlisAlani {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .DogruYanlisButonAlani {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .DogruYanlisButonAlani:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .DogruYanlisButonAlani.DogruSecili {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border-color: #28a745;
+        }
+        
+        .DogruYanlisButonAlani.YanlisSecili {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+            color: white;
+            border-color: #dc3545;
+        }
+        
+        .SonucButonlariAlani {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .SonucButonAlani {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.3);
+            margin: 10px;
+            font-weight: 600;
+        }
+        
+        .SonucButonAlani:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+        
+        .SonucAlani {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            display: none;
+        }
+        
+        .SonucAlani.Goster {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .SkorAlani {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .SkorYazisiAlani {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .ProgressBarAlani {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .ProgressDolguAlani {
+            height: 100%;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+            position: relative;
+        }
+        
+        .ProgressDolguAlani::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: progressShine 2s infinite;
+        }
+        
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .YenideBaslatButonAlani {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            font-weight: 600;
+        }
+        
+        .YenideBaslatButonAlani:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .ZamanSayaci {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        @media (max-width: 768px) {
+            .KapsayiciContainer {
+                padding: 10px;
+            }
+            
+            .TestBasligiAlani h1 {
+                font-size: 2rem;
+            }
+            
+            .SoruKonteynerAlani {
+                padding: 20px;
+            }
+            
+            .ArapMetinAlani {
+                font-size: 1.5rem;
+            }
+            
+            .ZamanSayaci {
+                position: relative;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+        }
+        
+        .FadeInAnimasyon {
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="ZamanSayaci" id="zamanSayaci">
+        ⏱️ Süre: <span id="zamanDegerAlani">00:00</span>
+    </div>
+
+    <div class="KapsayiciContainer">
+        <div class="TestBasligiAlani FadeInAnimasyon">
+            <h1>🕌 TECVİD TESTİ</h1>
+            <p>Modern İnteraktif Sınav Sistemi - Bilginizi Test Edin</p>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 1</div>
+            <div class="SoruMetniAlani">
+                Aşağıdaki cümlelerden doğru olanı <strong>D</strong>, yanlışı olanı <strong>Y</strong> yazarak işaretleyelim.
+            </div>
+            <div class="DogruYanlisAlani">
+                <div class="SoruCumlesiAlani" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    ( ) İdğam-ı Misleyn, aynı olan iki harften birincisi sakin, ikincisi harekeli olarak art arda gelmesiyle olur.
+                    <div style="margin-top: 10px;">
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'dogru', 1, 1)">✅ Doğru (D)</button>
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'yanlis', 1, 1)">❌ Yanlış (Y)</button>
+                    </div>
+                </div>
+                <div class="SoruCumlesiAlani" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    ( ) İdğam-ı Mütecaniseyn mahreçleri aynı sıfatları farklı olan 3 harf grubunda meydana gelir.
+                    <div style="margin-top: 10px;">
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'dogru', 1, 2)">✅ Doğru (D)</button>
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'yanlis', 1, 2)">❌ Yanlış (Y)</button>
+                    </div>
+                </div>
+                <div class="SoruCumlesiAlani" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    ( ) İdğam-ı Mütekaribeyn, aynı mahreçten gelen aynı iki harf arasında olur.
+                    <div style="margin-top: 10px;">
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'dogru', 1, 3)">✅ Doğru (D)</button>
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'yanlis', 1, 3)">❌ Yanlış (Y)</button>
+                    </div>
+                </div>
+                <div class="SoruCumlesiAlani" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    ( ) İzhâr-ı Kameriyye'de elif lam (ال) okunmaz, gizlenir.
+                    <div style="margin-top: 10px;">
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'dogru', 1, 4)">✅ Doğru (D)</button>
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'yanlis', 1, 4)">❌ Yanlış (Y)</button>
+                    </div>
+                </div>
+                <div class="SoruCumlesiAlani" style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    ( ) "ل" durağında durmak gerekir. Çünkü bundan sonra gelecek kısmın önceki kısım ile alakası yoktur. Yeni cümledir.
+                    <div style="margin-top: 10px;">
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'dogru', 1, 5)">✅ Doğru (D)</button>
+                        <button class="DogruYanlisButonAlani" onclick="DogruYanlisSecimi(this, 'yanlis', 1, 5)">❌ Yanlış (Y)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 2</div>
+            <div class="SoruMetniAlani">
+                Aşağıdaki duraklardan hangilerinin anlamları doğrudur?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
+                    <input type="radio" name="soru2" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) "م" durmak gerekir. Durulmadığında mana bozulur.
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
+                    <input type="radio" name="soru2" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) "ق" durmakta maslahat vardır. Durmak daha iyidir.
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
+                    <input type="radio" name="soru2" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) "ج" geçmek daha iyidir, aynı zamanda durulabilir.
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
+                    <input type="radio" name="soru2" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) "ص" okuyanın nefesi yetmediğinde zaruretten dolayı durmaya müsaade edilen duraktır.
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 2)">
+                    <input type="radio" name="soru2" value="e">
+                    <span class="SecenekIsaretiAlani"></span>
+                    e) "ﻻ" durulur da, geçilir de. Çoğu alime göre durmamak lazımdır.
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 3</div>
+            <div class="SoruMetniAlani">
+                Yukarıdaki ayette geçen tecvid kuralları hangi seçenekte doğru verilmiştir?
+            </div>
+            <div class="ArapMetinAlani">
+                رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 3)">
+                    <input type="radio" name="soru3" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) İdğam-ı Misleyn Bila Gunne, Meddi Munfasıl, Meddi Tabiî, İdğam-ı Şemsiyye
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 3)">
+                    <input type="radio" name="soru3" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) İklab, Meddi Muttasıl, Meddi Tabiî, İzhar-ı Kameriyye, İdğamı Şemsiyye
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 3)">
+                    <input type="radio" name="soru3" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) Meddi Munfasıl, meddi tabiî, ihfa, idğam-ı bila gunne, izhar
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 3)">
+                    <input type="radio" name="soru3" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) Meddi Muttasıl, meddi tabiî, idğam-ı şemsiyye, izhar, idğam-ı bila gunne
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 4</div>
+            <div class="SoruMetniAlani">
+                Lügat manası "örtmek ve gizlemek" demektir. Tecvid manası ise "İzhar ile İdğam arasında şeddesiz ve gunneli olarak okumaya _______ denir." Boşluğu uygun kelime ile doldurunuz. Aşağıdaki kelimelerin hangisinde ihfa vardır?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
+                    <input type="radio" name="soru4" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) عَنْ نَفْسٍ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
+                    <input type="radio" name="soru4" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) لَئِنْ بَسَطْتَ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
+                    <input type="radio" name="soru4" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) يَنْصُرْكُمْ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 4)">
+                    <input type="radio" name="soru4" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) مِنْ رِزْقٍ
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 5</div>
+            <div class="SoruMetniAlani">
+                Aşağıdaki kelimelerin hangisi İdğam-ı Misleyn Meal Gunne'dir?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
+                    <input type="radio" name="soru5" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) مُؤْصَدَةٌ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
+                    <input type="radio" name="soru5" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) مِنْهُمْ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
+                    <input type="radio" name="soru5" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) مَا لَكُمْ مِنْ اللَّهِ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 5)">
+                    <input type="radio" name="soru5" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) hepsi
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 6</div>
+            <div class="SoruMetniAlani">
+                اَلرَّحْمٰنِ kelimesinde hangi tecvid kuralı vardır?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 6)">
+                    <input type="radio" name="soru6" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) İzhar
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 6)">
+                    <input type="radio" name="soru6" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) İdğam-ı Mütecaniseyn
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 6)">
+                    <input type="radio" name="soru6" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) İdğam-ı Şemsiyye
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 6)">
+                    <input type="radio" name="soru6" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) İklab
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 7</div>
+            <div class="SoruMetniAlani">
+                Aşağıdaki kelimelerden hangilerinde İzhar-ı Kameriyye uygulanmıştır?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
+                    <input type="radio" name="soru7" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) الْقَمَرُ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
+                    <input type="radio" name="soru7" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) الْعَيْنُ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
+                    <input type="radio" name="soru7" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) التَّوْبَةُ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 7)">
+                    <input type="radio" name="soru7" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) الْجُمُعَةُ
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 8</div>
+            <div class="SoruMetniAlani">
+                Aşağıdaki harf grubundan hangisi İdğam-ı Mütecaniseyn oluşturmaz?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
+                    <input type="radio" name="soru8" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) ت، د، ط
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
+                    <input type="radio" name="soru8" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) ث، ذ، ظ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
+                    <input type="radio" name="soru8" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) م، ب
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 8)">
+                    <input type="radio" name="soru8" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) ق، ك
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 9</div>
+            <div class="SoruMetniAlani">
+                Aşağıdaki hangi kelimede sakin mim (مْ) halleri yoktur?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
+                    <input type="radio" name="soru9" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) آمَنَ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
+                    <input type="radio" name="soru9" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) رَبُّهُمْ بِهِمْ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
+                    <input type="radio" name="soru9" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) خَلَقْنَا
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 9)">
+                    <input type="radio" name="soru9" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) وَلَكُمْ فِيهَا مَا
+                </label>
+            </div>
+        </div>
+
+        <div class="SoruKonteynerAlani FadeInAnimasyon">
+            <div class="SoruBasligiAlani">📝 Soru 10</div>
+            <div class="SoruMetniAlani">
+                Hangi harf grubunda İdğam-ı Mütekaribeyn oluşur?
+            </div>
+            <div class="SeceneklerAlani">
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
+                    <input type="radio" name="soru10" value="a">
+                    <span class="SecenekIsaretiAlani"></span>
+                    a) ق، ك
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
+                    <input type="radio" name="soru10" value="b">
+                    <span class="SecenekIsaretiAlani"></span>
+                    b) ل، ر
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
+                    <input type="radio" name="soru10" value="c">
+                    <span class="SecenekIsaretiAlani"></span>
+                    c) ث، ذ، ظ
+                </label>
+                <label class="SecenekButonAlani" onclick="SecenekSecimi(this, 10)">
+                    <input type="radio" name="soru10" value="d">
+                    <span class="SecenekIsaretiAlani"></span>
+                    d) ي، م، ن، و
+                </label>
+            </div>
+        </div>
+
+        <div class="SonucButonlariAlani">
+            <button class="SonucButonAlani" onclick="TestiDegerlendir()">🎯 Testi Değerlendir</button>
+            <button class="SonucButonAlani" onclick="CevaplariGoster()" style="background: linear-gradient(135deg, #fd7e14, #e83e8c);">📋 Cevapları Göster</button>
+        </div>
+
+        <div class="SonucAlani" id="sonucAlani">
+            <div class="SkorAlani" id="skorAlani">0/10</div>
+            <div class="SkorYazisiAlani" id="skorYazisiAlani">Skorunuz hesaplanıyor...</div>
+            <div class="ProgressBarAlani">
+                <div class="ProgressDolguAlani" id="progressDolguAlani" style="width: 0%;"></div>
+            </div>
+            <button class="YenideBaslatButonAlani" onclick="TestiYenideBaslat()">🔄 Testi Yeniden Başlat</button>
+        </div>
+    </div>
+
+    <script>
+        let BaslangicZamani = new Date().getTime();
+        let TestSonuclari = {
+            soru1: { alt1: null, alt2: null, alt3: null, alt4: null, alt5: null },
+            soru2: null,
+            soru3: null,
+            soru4: null,
+            soru5: null,
+            soru6: null,
+            soru7: null,
+            soru8: null,
+            soru9: null,
+            soru10: null
+        };
+
+        let DogruCevaplar = {
+            soru1: { alt1: 'dogru', alt2: 'yanlis', alt3: 'yanlis', alt4: 'yanlis', alt5: 'dogru' },
+            soru2: 'a',
+            soru3: 'd',
+            soru4: 'c',
+            soru5: 'a',
+            soru6: 'c',
+            soru7: 'a',
+            soru8: 'c',
+            soru9: 'a',
+            soru10: 'a'
+        };
+
+        function ZamaniGuncelle() {
+            const SimdikiZaman = new Date().getTime();
+            const GecenSure = SimdikiZaman - BaslangicZamani;
+            const Dakika = Math.floor(GecenSure / 60000);
+            const Saniye = Math.floor((GecenSure % 60000) / 1000);
+            
+            document.getElementById('zamanDegerAlani').textContent = 
+                `${Dakika.toString().padStart(2, '0')}:${Saniye.toString().padStart(2, '0')}`;
+        }
+
+        function SecenekSecimi(element, soruNo) {
+            const parentContainer = element.closest('.SoruKonteynerAlani');
+            const allOptions = parentContainer.querySelectorAll('.SecenekButonAlani');
+            
+            allOptions.forEach(opt => opt.classList.remove('SeciliSecenek'));
+            element.classList.add('SeciliSecenek');
+            
+            const radioInput = element.querySelector('input[type="radio"]');
+            radioInput.checked = true;
+            
+            TestSonuclari['soru' + soruNo] = radioInput.value;
+        }
+
+        function DogruYanlisSecimi(element, secim, soruNo, altSoruNo) {
+            const parentContainer = element.closest('.SoruCumlesiAlani');
+            const allButtons = parentContainer.querySelectorAll('.DogruYanlisButonAlani');
+            
+            allButtons.forEach(btn => {
+                btn.classList.remove('DogruSecili', 'YanlisSecili');
+            });
+            
+            if (secim === 'dogru') {
+                element.classList.add('DogruSecili');
+            } else {
+                element.classList.add('YanlisSecili');
+            }
+            
+            TestSonuclari['soru' + soruNo]['alt' + altSoruNo] = secim;
+        }
+
+        function TestiDegerlendir() {
+            let dogruSayisi = 0;
+            let toplamSoru = 10;
+
+            for (let i = 1; i <= 10; i++) {
+                if (i === 1) {
+                    let soru1Dogru = 0;
+                    for (let j = 1; j <= 5; j++) {
+                        if (TestSonuclari.soru1['alt' + j] === DogruCevaplar.soru1['alt' + j]) {
+                            soru1Dogru++;
+                        }
+                    }
+                    if (soru1Dogru === 5) dogruSayisi++;
+                } else {
+                    if (TestSonuclari['soru' + i] === DogruCevaplar['soru' + i]) {
+                        dogruSayisi++;
+                    }
+                }
+            }
+
+            const yuzdelik = Math.round((dogruSayisi / toplamSoru) * 100);
+            
+            document.getElementById('skorAlani').textContent = `${dogruSayisi}/${toplamSoru}`;
+            document.getElementById('skorYazisiAlani').textContent = `Başarı Oranınız: %${yuzdelik}`;
+            document.getElementById('progressDolguAlani').style.width = yuzdelik + '%';
+            document.getElementById('sonucAlani').classList.add('Goster');
+
+            const GecenSure = new Date().getTime() - BaslangicZamani;
+            const Dakika = Math.floor(GecenSure / 60000);
+            const Saniye = Math.floor((GecenSure % 60000) / 1000);
+            
+            setTimeout(() => {
+                document.getElementById('skorYazisiAlani').innerHTML = 
+                    `Başarı Oranınız: %${yuzdelik}<br>Tamamlama Süresi: ${Dakika}:${Saniye.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function CevaplariGoster() {
+            let cevapMetni = "🔍 DOĞRU CEVAPLAR:\n\n";
+            cevapMetni += "Soru 1: D-Y-Y-Y-D\n";
+            cevapMetni += "Soru 2: a) م durmak gerekir\n";
+            cevapMetni += "Soru 3: d) Meddi Muttasıl, meddi tabiî, idğam-ı şemsiyye...\n";
+            cevapMetni += "Soru 4: c) يَنْصُرْكُمْ\n";
+            cevapMetni += "Soru 5: a) مُؤْصَدَةٌ\n";
+            cevapMetni += "Soru 6: c) İdğam-ı Şemsiyye\n";
+            cevapMetni += "Soru 7: a) الْقَمَرُ\n";
+            cevapMetni += "Soru 8: c) م، ب\n";
+            cevapMetni += "Soru 9: a) آمَنَ\n";
+            cevapMetni += "Soru 10: a) ق، ك\n";
+            
+            alert(cevapMetni);
+        }
+
+        function TestiYenideBaslat() {
+            location.reload();
+        }
+
+        setInterval(ZamaniGuncelle, 1000);
+
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.FadeInAnimasyon');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.animation = `fadeIn 0.6s ease ${index * 0.1}s both`;
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html> 
